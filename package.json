@@ -1,7 +1,11 @@
 {
   "name": "dox-editor",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "private": false,
+  "types": "dist/index.d.ts",
+  "typings": "dist",
+  "main": "editor.ts",
+  "module": "editor.ts",
   "dependencies": {
     "@emotion/css": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.3",
