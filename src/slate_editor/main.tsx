@@ -14,9 +14,8 @@ const Editor = (props: any) => {
     let {decorate} = SearchHighlightingExample(props.search || "");
     return (
         <Slate editor={editor} initialValue={props.data}>
-
-            {plugins()}
             <h1>helloxxx</h1>
+            {plugins()}
             <Editable
                 decorate={decorate}
                 // renderElement={props => <Element {...props} />}

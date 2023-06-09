@@ -31,7 +31,7 @@ require("./style/main.css");
 var Editor = function (props) {
     var editor = (0, react_1.useMemo)(function () { return (0, slate_history_1.withHistory)((0, slate_react_1.withReact)((0, slate_1.createEditor)())); }, []);
     var decorate = (0, search_highlight_1.default)(props.search || "").decorate;
-    return ((0, jsx_runtime_1.jsxs)(slate_react_1.Slate, { editor: editor, initialValue: props.data, children: [(0, main_1.default)(), (0, jsx_runtime_1.jsx)("h1", { children: "helloxxx" }), (0, jsx_runtime_1.jsx)(slate_react_1.Editable, { decorate: decorate, 
+    return ((0, jsx_runtime_1.jsxs)(slate_react_1.Slate, { editor: editor, initialValue: props.data, children: [(0, jsx_runtime_1.jsx)("h1", { children: "helloxxx" }), (0, main_1.default)(), (0, jsx_runtime_1.jsx)(slate_react_1.Editable, { decorate: decorate, 
                 // renderElement={props => <Element {...props} />}
                 renderLeaf: function (props) { return (0, jsx_runtime_1.jsx)(Leaf, __assign({}, props)); }, placeholder: "Enter some text...", onDOMBeforeInput: function (event) {
                     switch (event.inputType) {
