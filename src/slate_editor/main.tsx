@@ -6,14 +6,15 @@ import {toggleFormat} from "../plugins/toolbar";
 import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
+import "./style/main.css"
 
 const Editor = (props: any) => {
-    const [search, setSearch] = useState<string | undefined>()
+
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    let {decorate} = SearchHighlightingExample(search);
+    let {decorate} = SearchHighlightingExample(props.search || "");
     return (
         <Slate editor={editor} initialValue={props.data}>
-            <input onChange={e => setSearch(e.target.value)}/>
+
             {plugins()}
             <Editable
                 decorate={decorate}

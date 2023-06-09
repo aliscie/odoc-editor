@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
-        "outDir": "dist",
+    "outDir": "dist",
     "module": "commonjs",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "jsx": "react-jsx",
     "esModuleInterop": true,
@@ -17,9 +21,13 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": false
   },
   "include": [
-    "src"
+    "src",
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

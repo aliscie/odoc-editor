@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import Editor from "./slate_editor/main";
 
@@ -27,10 +27,14 @@ const initialValue: any[] = [
 ]
 
 function App() {
+    const [search, setSearch] = useState<string | undefined>()
+
     return (
         <div className="App">
             <header className="App-header">
-                <Editor data={initialValue}/>
+                <h1> Editor is here.</h1>
+                <input onChange={e => setSearch(e.target.value)}/>
+                <Editor search={search} data={initialValue}/>
             </header>
         </div>
     );
