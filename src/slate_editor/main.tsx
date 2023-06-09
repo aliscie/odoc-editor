@@ -16,6 +16,7 @@ const Editor = (props: any) => {
         <Slate editor={editor} initialValue={props.data}>
 
             {plugins()}
+            <h1>helloxxx</h1>
             <Editable
                 decorate={decorate}
                 // renderElement={props => <Element {...props} />}
