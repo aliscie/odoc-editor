@@ -1,6 +1,6 @@
 {
   "name": "dox-editor",
-  "version": "0.3.23",
+  "version": "0.3.34",
   "private": false,
   "types": "dist/index.d.ts",
   "dependencies": {
