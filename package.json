@@ -1,8 +1,13 @@
 {
   "name": "dox-editor",
-  "version": "0.2.40",
-  "private": false,
+  "version": "0.2.46",
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "@emotion/css": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -51,7 +56,16 @@
       "last 1 safari version"
     ]
   },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@types/react": "^18.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

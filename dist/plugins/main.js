@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_runtime_1 = require("react/jsx-runtime");
-var toolbar_1 = require("./toolbar");
-var plugins = function (editor) {
+const react_1 = __importDefault(require("react"));
+const toolbar_1 = require("./toolbar");
+let plugins = (editor) => {
     return [
-        (0, jsx_runtime_1.jsx)(toolbar_1.HoveringToolbar, {})
+        react_1.default.createElement(toolbar_1.HoveringToolbar, null)
     ];
 };
 exports.default = plugins;

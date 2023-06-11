@@ -6,16 +6,15 @@ import {css} from "@emotion/css";
 
 export const toggleFormat = (editor: BaseEditor, format: string) => {
     const isActive = isFormatActive(editor, format)
+    const match: any = {[format]: isActive ? null : true};
     Transforms.setNodes(
         editor,
-        {[format]: isActive ? null : true},
+        match,
         {match: Text.isText, split: true}
     )
 }
 
 const isFormatActive = (editor: BaseEditor, format: string) => {
-    // @ts-ignore
-
     const [match] = Editor.nodes(editor, {
         // @ts-ignore
         match: n => n[format] === true,

@@ -1,13 +1,35 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_runtime_1 = require("react/jsx-runtime");
-var react_1 = require("react");
+const react_1 = __importStar(require("react"));
 require("./App.css");
-var main_1 = __importDefault(require("./slate_editor/main"));
-var initialValue = [
+const main_1 = __importDefault(require("./slate_editor/main"));
+const initialValue = [
     {
         type: 'paragraph',
         children: [
@@ -30,8 +52,12 @@ var initialValue = [
     },
 ];
 function App() {
-    var _a = (0, react_1.useState)(), search = _a[0], setSearch = _a[1];
-    return ((0, jsx_runtime_1.jsx)("div", { className: "App", children: (0, jsx_runtime_1.jsxs)("header", { className: "App-header", children: [(0, jsx_runtime_1.jsx)("h1", { children: " Editor is here." }), (0, jsx_runtime_1.jsx)("input", { onChange: function (e) { return setSearch(e.target.value); } }), (0, jsx_runtime_1.jsx)(main_1.default, { search: search, data: initialValue })] }) }));
+    const [search, setSearch] = (0, react_1.useState)();
+    return (react_1.default.createElement("div", { className: "App" },
+        react_1.default.createElement("header", { className: "App-header" },
+            react_1.default.createElement("h1", null, " Editor is here."),
+            react_1.default.createElement("input", { onChange: e => setSearch(e.target.value) }),
+            react_1.default.createElement(main_1.default, { search: search, data: initialValue }))));
 }
 exports.default = App;
 //# sourceMappingURL=App.js.map

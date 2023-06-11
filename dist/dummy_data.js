@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var generate_id_1 = require("./utiles/generate_id");
-var my_dummies = [
+const generate_id_1 = require("./utiles/generate_id");
+const my_dummies = [
     { tag: 'h3', children: [{ id: "p2", content: "hello world" }], id: "p3", },
     {
         tag: 'p',

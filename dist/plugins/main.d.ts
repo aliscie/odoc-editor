@@ -1,2 +1,3 @@
-declare let plugins: (editor?: any) => import("react/jsx-runtime").JSX.Element[];
+import React from "react";
+declare let plugins: (editor?: any) => React.JSX.Element[];
 export default plugins;
