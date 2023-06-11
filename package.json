@@ -1,12 +1,14 @@
 {
   "name": "dox-editor",
-  "version": "0.2.46",
+  "version": "0.2.48",
   "main": "dist/index.js",
   "files": [
     "dist",
     "README.md"
   ],
   "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.22.5",
+    "@babel/plugin-transform-runtime": "^7.22.5",
     "@babel/polyfill": "^7.12.1",
     "@emotion/css": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.3",
@@ -34,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc && cp package.json README.md ./dist",
+    "build": "npm run clean && babel src --out-dir dist --extensions .ts --copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
