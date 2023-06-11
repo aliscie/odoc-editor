@@ -1,4 +1,0 @@
-[placeholder][data-empty="true"]:after {
-  content: attr(placeholder);
-  color: #ccc;
-}
