@@ -6,7 +6,7 @@ import {toggleFormat} from "../plugins/toolbar";
 import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
-import "./style/main.css"
+// import "./style/main.css"
 
 const Editor = (props: any) => {
 
@@ -14,7 +14,6 @@ const Editor = (props: any) => {
     let {decorate} = SearchHighlightingExample(props.searchOptions || "", props.search || "");
     return (
         <Slate editor={editor} initialValue={props.data}>
-            <h1>helloxxx</h1>
             {plugins()}
             <Editable
                 decorate={decorate}
