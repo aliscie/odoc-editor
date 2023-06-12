@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
+    "module": "esnext",
     "jsx": "react",
     "downlevelIteration": true,
     "outDir": "dist",
-    "module": "commonjs",
     "target": "es2020",
     "lib": [
       "dom",

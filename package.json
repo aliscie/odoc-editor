@@ -1,7 +1,8 @@
 {
   "name": "dox-editor",
   "version": "0.2.48",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "dist",
     "README.md"
@@ -36,7 +37,7 @@
   "scripts": {
     "start": "react-scripts start",
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc && cp package.json README.md dist",
+    "build": "yarn run clean && rollup -c",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -68,10 +69,19 @@
     "@babel/preset-env": "^7.22.5",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
+    "@rollup/plugin-commonjs": "^25.0.1",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.1",
     "@types/react": "^18.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^5.1.3",
     "webpack-cli": "^5.1.4"
-  }
+  },
+  "repository": "https://github.com/aliscie/dox-editor.git",
+  "author": "aliscie <alihushamsci@icloud.com>",
+  "license": "MIT"
 }

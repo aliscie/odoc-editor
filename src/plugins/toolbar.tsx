@@ -16,8 +16,7 @@ export const toggleFormat = (editor: BaseEditor, format: string) => {
 
 const isFormatActive = (editor: BaseEditor, format: string) => {
     const [match] = Editor.nodes(editor, {
-        // @ts-ignore
-        match: n => n[format] === true,
+        match: (n: any) => n[format] === true,
         mode: 'all',
     })
     return !!match
