@@ -6,7 +6,7 @@ import {toggleFormat} from "../plugins/toolbar";
 import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
-// import "./style/main.css"
+import "./style/main.css"
 
 const Editor = (props: any) => {
 
