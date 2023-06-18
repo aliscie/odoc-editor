@@ -4,7 +4,7 @@ import Editor from "./slate_editor/main";
 
 const initialValue: any[] = [
     {
-        type: 'paragraph',
+        type: 'p',
         children: [
             {
                 text:
@@ -17,11 +17,24 @@ const initialValue: any[] = [
         ],
     },
     {
-        type: 'paragraph',
+        type: 'p',
         children: [
             {text: 'Try it out yourself! Just '},
             {text: 'select any piece of text and the menu will appear', bold: true},
             {text: '.'},
+        ],
+    },
+    {
+        type: 'h1',
+        // text: "titel is here",
+        children: [
+            {text: 'titel is here'},
+        ],
+    },
+    {
+        type: 'comment',
+        children: [
+            {text: 'this is from x'},
         ],
     },
 ]
