@@ -39,6 +39,22 @@ const initialValue: any[] = [
     },
 ]
 
+
+const Element = (
+    props: any
+) => {
+    const {attributes, children, element} = props
+    let Tag = element.type
+    switch (Tag) {
+        case 'h1':
+            return <h1 style={{background: "gray"}} {...attributes}>{children}</h1>
+        default:
+            break
+    }
+    return null
+}
+
+
 function App() {
     const [search, setSearch] = useState<string | undefined>()
 
@@ -47,7 +63,9 @@ function App() {
             <header className="App-header">
                 <h1> Editor is here.</h1>
                 <input onChange={e => setSearch(e.target.value)}/>
-                <Editor searchOptions={"gi"} search={search} data={initialValue}/>
+                <Editor
+                    renderElement={Element}
+                    searchOptions={"gi"} search={search} data={initialValue}/>
             </header>
         </div>
     );

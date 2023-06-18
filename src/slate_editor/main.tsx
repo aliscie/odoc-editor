@@ -9,9 +9,7 @@ import {css} from "@emotion/css";
 import "./style/main.css"
 
 
-const Element = (
-    props: any
-) => {
+const Element = (props: any) => {
     const {attributes, children, element} = props
     let custom_renderer = props.renderElement && props.renderElement(props);
     if (custom_renderer) {
@@ -30,7 +28,7 @@ const Element = (
 
 
 interface EditorProps {
-    renderElement: any
+    renderElement?: any
     onChange?: any,
     searchOptions?: any,
     search?: any,
@@ -41,7 +39,7 @@ const Editor = (props: EditorProps) => {
 
     const editor = useMemo(() => withHistory(withReact(createEditor())), [])
     let {decorate} = SearchHighlightingExample(props.searchOptions || "", props.search || "");
-    const renderElement = useCallback((props: any) => <Element {...props} />, [])
+    const renderElement = useCallback((renderProps: any) => <Element {...renderProps} {...props} />, [])
 
     return (
         <Slate
@@ -51,7 +49,6 @@ const Editor = (props: EditorProps) => {
             {plugins()}
             <Editable
                 decorate={decorate}
-                // renderElement={props => <Element {...props} />}
                 renderElement={renderElement}
                 renderLeaf={props => <Leaf {...props} />}
                 placeholder="Enter some text..."
