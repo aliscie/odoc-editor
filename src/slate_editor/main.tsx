@@ -30,6 +30,7 @@ const Element = (
 
 
 interface EditorProps {
+    renderElement: any
     onChange?: any,
     searchOptions?: any,
     search?: any,
