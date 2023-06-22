@@ -1,6 +1,6 @@
 {
   "name": "odoc-editor",
-  "version": "0.2.54",
+  "version": "0.2.56",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
