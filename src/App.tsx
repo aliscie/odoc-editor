@@ -47,7 +47,11 @@ const Element = (
     let Tag = element.type
     switch (Tag) {
         case 'h1':
-            return <h1 style={{background: "gray"}} {...attributes}>{children}</h1>
+            return <h1 placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
+                       {...attributes}>{children}</h1>
+        case 'comment':
+            return <div placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
+                        {...attributes}>{children}</div>
         default:
             break
     }
@@ -64,6 +68,7 @@ function App() {
                 <h1> Editor is here.</h1>
                 <input onChange={e => setSearch(e.target.value)}/>
                 <Editor
+                    mentionOptions={["Ali", "James", "Aman"]}
                     renderElement={Element}
                     searchOptions={"gi"} search={search} data={initialValue}/>
             </header>

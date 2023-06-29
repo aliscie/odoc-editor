@@ -14,12 +14,15 @@ export default {
             file: packageJson.main,
             format: 'cjs',
             sourcemap: true,
-            name: 'react-lib'
+            name: 'react-lib',
+            inlineDynamicImports: true,
         },
         {
             file: packageJson.module,
             format: 'esm',
-            sourcemap: true
+            sourcemap: true,
+            inlineDynamicImports: true,
+
         }
     ],
     plugins: [
