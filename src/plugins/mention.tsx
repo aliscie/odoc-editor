@@ -1,13 +1,12 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react'
-import {createEditor, Editor, Range, Transforms} from 'slate'
-import {withHistory} from 'slate-history'
-import {ReactEditor, useFocused, useSelected, withReact,} from 'slate-react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
+import {Editor, Range, Transforms} from 'slate'
+import {ReactEditor, useFocused, useSelected,} from 'slate-react'
 import {Portal} from "../components/editor_components";
 
 // import {Portal} from '../components'
 // import {MentionElement} from './custom-types'
 
-const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any) => {
+const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any, insert: any) => {
     const ref: any = useRef<HTMLDivElement | null>()
     const [target, setTarget]: any = useState<Range | undefined>()
     const [index, setIndex] = useState(0)
@@ -19,8 +18,12 @@ const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any)
     //     []
     // )
 
-    const chars = options.filter((c: any) =>
-        c.toLowerCase().startsWith(search.toLowerCase())
+    const chars = options.filter((c: any) => {
+            if (typeof c !== 'string') {
+                c = c.type;
+            }
+            return c.toLowerCase().startsWith(search.toLowerCase())
+        }
     ).slice(0, 10)
 
     const mentionOnKeyDown = useCallback(
@@ -41,7 +44,7 @@ const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any)
                     case 'Enter':
                         event.preventDefault()
                         Transforms.select(editor, target)
-                        insertMention(editor, chars[index])
+                        insert(editor, chars[index])
                         setTarget(null)
                         break
                     case 'Escape':
@@ -81,10 +84,10 @@ const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any)
             >
                 {chars.map((char: any, i: any) => (
                     <div
-                        key={char}
+                        key={char.type || char}
                         onClick={() => {
                             Transforms.select(editor, target)
-                            insertMention(editor, char)
+                            insertMention(editor, char.type || char)
                             setTarget(null)
                         }}
                         style={{
@@ -93,7 +96,7 @@ const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any)
                             background: i === index ? '#B4D5FF' : 'transparent',
                         }}
                     >
-                        {char}
+                        {char.type || char}
                     </div>
                 ))}
             </div>
@@ -153,11 +156,19 @@ export const withMentions = (editor: any) => {
     return editor
 }
 
-const insertMention = (editor: any, character: any) => {
+export const insertMention = (editor: any, character: any) => {
     const mention: any = {
         type: 'mention',
         character,
         children: [{text: ''}],
+    }
+    Transforms.insertNodes(editor, mention)
+    Transforms.move(editor)
+}
+
+export const insertComponent = (editor: any, component: any) => {
+    const mention: any = {
+        ...component,
     }
     Transforms.insertNodes(editor, mention)
     Transforms.move(editor)

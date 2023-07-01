@@ -5,7 +5,7 @@ import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
 import "./style/main.css"
-import useMentionExample, {Mention, withMentions} from "../plugins/mention";
+import useMention, {insertComponent, insertMention, Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
 import {createEditor} from "slate";
 
@@ -37,15 +37,76 @@ interface EditorProps {
     search?: any,
     data: any
     mentionOptions?: any[]
+    componentsOptions?: any
 }
+
+
+// const withLayout = (editor: SlateEditor) => {
+//     const {normalizeNode} = editor;
+//
+//     editor.normalizeNode = ([node, path]) => {
+//         if (path.length === 0) {
+//             if (editor.children.length <= 1 && SlateEditor.string(editor, [0, 0]) === '') {
+//                 const title: any = {
+//                     type: 'title',
+//                     children: [{text: 'Untitled'}],
+//                 };
+//                 Transforms.insertNodes(editor, title, {
+//                     at: path.concat(0),
+//                     select: true,
+//                 });
+//             }
+//
+//             if (editor.children.length < 2) {
+//                 const paragraph: any = {
+//                     type: 'paragraph',
+//                     children: [{text: ''}],
+//                 };
+//                 Transforms.insertNodes(editor, paragraph, {at: path.concat(1)});
+//             }
+//
+//             for (const [child, childPath] of Node.children(editor, path)) {
+//                 let type: string;
+//                 const slateIndex = childPath[0];
+//                 const enforceType = (type: string) => {
+//                     if (SlateElement.isElement(child) && child.type !== type) {
+//                         const newProperties: Partial<SlateElement> = {type};
+//                         Transforms.setNodes<SlateElement>(editor, newProperties, {
+//                             at: childPath,
+//                         });
+//                     }
+//                 };
+//
+//                 switch (slateIndex) {
+//                     case 0:
+//                         type = 'title';
+//                         enforceType(type);
+//                         break;
+//                     case 1:
+//                         type = 'paragraph';
+//                         enforceType(type);
+//                     default:
+//                         break;
+//                 }
+//             }
+//         }
+//
+//         return normalizeNode([node, path]);
+//     };
+//
+//     return editor;
+// };
 
 const Editor = (props: EditorProps) => {
     // const editor = useMemo(() => withHistory(withReact(createEditor())), [])
     const editor = useMemo(() => withMentions(withReact(withHistory(createEditor()))), [])
     let [MentionPortal,
         mentionOnChange,
-        mentionOnKeyDown] = useMentionExample(props.mentionOptions, /^@(\w+)$/, editor);
+        mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
 
+    let [ComponentsPortal,
+        componentsOnChange,
+        componentsOnKeyDown] = useMention(props.componentsOptions, /^\/(\w+)$/, editor, insertComponent);
 
     // let editor = mentionEditor;
     let {decorate} = SearchHighlightingExample(props.searchOptions || "", props.search || "");
@@ -57,15 +118,18 @@ const Editor = (props: EditorProps) => {
             onChange={(e: any) => {
                 props.onChange && props.onChange(e)
                 mentionOnChange()
+                componentsOnChange()
             }}
 
             editor={editor}
             initialValue={props.data}>
             {plugins()}
             {MentionPortal}
+            {ComponentsPortal}
             <Editable
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
+                    componentsOnKeyDown(e)
                 }}
                 decorate={decorate}
                 renderElement={renderElement}

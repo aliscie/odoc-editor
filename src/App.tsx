@@ -37,6 +37,12 @@ const initialValue: any[] = [
             {text: 'this is from x'},
         ],
     },
+    {
+        type: 'comment',
+        children: [
+            {text: ''},
+        ],
+    },
 ]
 
 
@@ -46,20 +52,95 @@ const Element = (
     const {attributes, children, element} = props
     let Tag = element.type
     switch (Tag) {
+        case 'table':
+            return (
+                <table>
+                    <tbody {...attributes}>{children}</tbody>
+                </table>
+            )
+        case 'table-row':
+            return <tr {...attributes}>{children}</tr>
+        case 'table-cell':
+            return <td {...attributes}>{children}</td>
         case 'h1':
             return <h1 placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
                        {...attributes}>{children}</h1>
-        case 'comment':
-            return <div placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
-                        {...attributes}>{children}</div>
-        default:
             break
     }
     return null
 }
 
+let table = {
+    type: 'table',
+    children: [
+        {
+            type: 'table-row',
+            children: [
+                {
+                    type: 'table-cell',
+                    children: [{text: ''}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: 'Human', bold: true}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: 'Dog', bold: true}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: 'Cat', bold: true}],
+                },
+            ],
+        },
+        {
+            type: 'table-row',
+            children: [
+                {
+                    type: 'table-cell',
+                    children: [{text: '# of Feet', bold: true}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '2'}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '4'}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '4'}],
+                },
+            ],
+        },
+        {
+            type: 'table-row',
+            children: [
+                {
+                    type: 'table-cell',
+                    children: [{text: '# of Lives', bold: true}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '1'}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '1'}],
+                },
+                {
+                    type: 'table-cell',
+                    children: [{text: '9'}],
+                },
+            ],
+        },
+    ],
+}
 
-function App() {
+function
+App() {
     const [search, setSearch] = useState<string | undefined>()
 
     return (
@@ -68,6 +149,11 @@ function App() {
                 <h1> Editor is here.</h1>
                 <input onChange={e => setSearch(e.target.value)}/>
                 <Editor
+                    componentsOptions={[
+                        {...table},
+                        {type: 'comment'},
+                        {type: "quote"}
+                    ]}
                     mentionOptions={["Ali", "James", "Aman"]}
                     renderElement={Element}
                     searchOptions={"gi"} search={search} data={initialValue}/>
