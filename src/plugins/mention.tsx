@@ -6,7 +6,7 @@ import {Portal} from "../components/editor_components";
 // import {Portal} from '../components'
 // import {MentionElement} from './custom-types'
 
-const useMentionExample = (options: any = CHARACTERS, trigger: any, editor: any, insert: any) => {
+const useMention = (options: any = CHARACTERS, trigger: any, editor: any, insert: any) => {
     const ref: any = useRef<HTMLDivElement | null>()
     const [target, setTarget]: any = useState<Range | undefined>()
     const [index, setIndex] = useState(0)
@@ -166,13 +166,7 @@ export const insertMention = (editor: any, character: any) => {
     Transforms.move(editor)
 }
 
-export const insertComponent = (editor: any, component: any) => {
-    const mention: any = {
-        ...component,
-    }
-    Transforms.insertNodes(editor, mention)
-    Transforms.move(editor)
-}
+
 
 // Borrow Leaf renderer from the Rich Text example.
 // In a real project you would get this via `withRichText(editor)` or similar.
@@ -646,4 +640,4 @@ export const CHARACTERS = [
     'Zuckuss',
 ]
 
-export default useMentionExample
+export default useMention

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import Editor from "./slate_editor/main";
+import {Transforms} from "slate";
 
 const initialValue: any[] = [
     {
@@ -43,6 +44,13 @@ const initialValue: any[] = [
             {text: ''},
         ],
     },
+    {
+        type: 'ol',
+        children: [
+            {type: 'li', children: [{text: "t"}]},
+            {type: 'li', children: [{text: "t"}]},
+        ],
+    },
 ]
 
 
@@ -65,6 +73,8 @@ const Element = (
         case 'h1':
             return <h1 placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
                        {...attributes}>{children}</h1>
+        case 'comment':
+            return <div className={"comment"} {...attributes}>{children}</div>
             break
     }
     return null
@@ -149,10 +159,21 @@ App() {
                 <h1> Editor is here.</h1>
                 <input onChange={e => setSearch(e.target.value)}/>
                 <Editor
+                    onInsertComponent={(e: any, c: any) => {
+                        if (c.type == "ol") {
+                            // console.log({x: c.children[0].children[0]})
+                            // Transforms.move(e, {at: [0, 0], distance: 0})
+                        }
+
+                    }}
                     componentsOptions={[
                         {...table},
                         {type: 'comment'},
-                        {type: "quote"}
+                        {type: "quote"},
+                        {
+                            type: "ol",
+                            children: [{type: 'li', children: [{text: ""}]}]
+                        },
                     ]}
                     mentionOptions={["Ali", "James", "Aman"]}
                     renderElement={Element}

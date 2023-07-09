@@ -7,6 +7,8 @@ interface EditorProps {
     search?: any;
     data: any;
     mentionOptions?: any[];
+    componentsOptions?: any;
+    onInsertComponent?: any;
 }
 declare const Editor: (props: EditorProps) => React.JSX.Element;
 export default Editor;

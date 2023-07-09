@@ -5,9 +5,10 @@ import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
 import "./style/main.css"
-import useMention, {insertComponent, insertMention, Mention, withMentions} from "../plugins/mention";
+import useMention, {insertMention, Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
-import {createEditor} from "slate";
+import {createEditor, Node as SlateNode, Transforms, Editor as SlateEditor} from "slate";
+import {getType} from "@reduxjs/toolkit";
 
 
 const Element = (props: any) => {
@@ -29,6 +30,10 @@ const Element = (props: any) => {
     return <Tag {...attributes}>{children}</Tag>
 }
 
+function randomString() {
+    return Math.random().toString(36).substring(7);
+}
+
 
 interface EditorProps {
     renderElement?: any
@@ -38,6 +43,7 @@ interface EditorProps {
     data: any
     mentionOptions?: any[]
     componentsOptions?: any
+    onInsertComponent?: any
 }
 
 
@@ -104,6 +110,15 @@ const Editor = (props: EditorProps) => {
         mentionOnChange,
         mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
 
+
+    const insertComponent = (editor: any, component: any) => {
+        const mention: any = {
+            ...component,
+        }
+        props.onInsertComponent(editor, component)
+        Transforms.insertNodes(editor, mention)
+        Transforms.move(editor)
+    }
     let [ComponentsPortal,
         componentsOnChange,
         componentsOnKeyDown] = useMention(props.componentsOptions, /^\/(\w+)$/, editor, insertComponent);
@@ -111,6 +126,59 @@ const Editor = (props: EditorProps) => {
     // let editor = mentionEditor;
     let {decorate} = SearchHighlightingExample(props.searchOptions || "", props.search || "");
     const renderElement = useCallback((renderProps: any) => <Element {...renderProps} {...props} />, [])
+
+
+    // a functoin that get the current slateNode
+    function getType(editor: any) {
+        let type = "";
+        let [match] = SlateEditor.nodes(editor, {
+            match: (n: any) => {
+                n.type && (type = n.type)
+                return false;
+            },
+        })
+        return type
+    }
+
+    function insertAtEnter(e: KeyboardEvent) {
+        // if is insert component return false
+        // if (props.onInsertComponent) {
+        //     return false;
+        // }
+        // console.log("insertAtEnter")
+
+        if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault()
+            let id = randomString();
+            let type = "p";
+            e.preventDefault()
+            const component: any = {
+                id,
+                type,
+                children: [{text: ''}],
+            }
+            let at = [editor.selection.anchor.path[0] + 1]
+            Transforms.insertNodes(editor, component,
+                {at}
+            )
+            Transforms.move(editor)
+
+        } else if (e.key === "Enter" && e.shiftKey) {
+            e.preventDefault()
+            editor.insertText("\n")
+        } else if (e.key === 'Enter') {
+            let id = randomString();
+            let type = getType(editor);
+            e.preventDefault()
+            const mention: any = {
+                id,
+                type,
+                children: [{text: ''}],
+            }
+            Transforms.insertNodes(editor, mention)
+            document.getElementById(id)?.focus()
+        }
+    }
 
     return (
         <Slate
@@ -130,6 +198,7 @@ const Editor = (props: EditorProps) => {
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
                     componentsOnKeyDown(e)
+                    insertAtEnter(e)
                 }}
                 decorate={decorate}
                 renderElement={renderElement}
