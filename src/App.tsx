@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
 import Editor from "./slate_editor/main";
-import {Transforms} from "slate";
 
 const initialValue: any[] = [
     {
@@ -54,9 +53,7 @@ const initialValue: any[] = [
 ]
 
 
-const Element = (
-    props: any
-) => {
+const Element = (props: any) => {
     const {attributes, children, element} = props
     let Tag = element.type
     switch (Tag) {
@@ -157,7 +154,10 @@ App() {
         <div className="App">
             <header className="App-header">
                 <h1> Editor is here.</h1>
-                <input onChange={e => setSearch(e.target.value)}/>
+                <input onChange={e => {
+                    setSearch(e.target.value)
+
+                }}/>
                 <Editor
                     onInsertComponent={(e: any, c: any) => {
                         if (c.type == "ol") {

@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo} from 'react'
-import {withReact} from "slate-react";
-import {withYjs, slateNodesToInsertDelta, YjsEditor} from '@slate-yjs/core';
-import * as Y from 'yjs';
-import {createEditor, Editor, Transforms} from "slate";
+// import {withReact} from "slate-react";
+// import {withYjs, slateNodesToInsertDelta, YjsEditor} from '@slate-yjs/core';
+// import * as Y from 'yjs';
+// import {createEditor, Editor, Transforms} from "slate";
 
 const useLiveColab = (initialValue: any) => {
     // Create a yjs document and get the shared type

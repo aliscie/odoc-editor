@@ -7,8 +7,8 @@ import {css} from "@emotion/css";
 import "./style/main.css"
 import useMention, {insertMention, Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
-import {createEditor, Node as SlateNode, Transforms, Editor as SlateEditor} from "slate";
-import {getType} from "@reduxjs/toolkit";
+import {createEditor, Editor as SlateEditor, NodeEntry, Transforms} from "slate";
+import useCode from "../plugins/code";
 
 
 const Element = (props: any) => {
@@ -110,12 +110,12 @@ const Editor = (props: EditorProps) => {
         mentionOnChange,
         mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
 
-
+    let {codeDecorate, codeOnKeyDown} = useCode(editor)
     const insertComponent = (editor: any, component: any) => {
         const mention: any = {
             ...component,
         }
-        props.onInsertComponent(editor, component)
+        props.onInsertComponent && props.onInsertComponent(editor, component)
         Transforms.insertNodes(editor, mention)
         Transforms.move(editor)
     }
@@ -141,11 +141,6 @@ const Editor = (props: EditorProps) => {
     }
 
     function insertAtEnter(e: KeyboardEvent) {
-        // if is insert component return false
-        // if (props.onInsertComponent) {
-        //     return false;
-        // }
-        // console.log("insertAtEnter")
 
         if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault()
@@ -180,6 +175,17 @@ const Editor = (props: EditorProps) => {
         }
     }
 
+
+    const combinedDecorate: any = (entry: NodeEntry) => {
+        const decorations: Range[] = [];
+
+        // Concatenate the decorations arrays
+        decorations.push(...decorate(entry), ...codeDecorate(entry));
+
+        // Return the combined decorations
+        return decorations;
+    };
+
     return (
         <Slate
 
@@ -199,8 +205,9 @@ const Editor = (props: EditorProps) => {
                     mentionOnKeyDown(e)
                     componentsOnKeyDown(e)
                     insertAtEnter(e)
+                    codeOnKeyDown(e)
                 }}
-                decorate={decorate}
+                decorate={combinedDecorate}
                 renderElement={renderElement}
                 renderLeaf={props => <Leaf {...props} />}
                 placeholder="Enter some text..."

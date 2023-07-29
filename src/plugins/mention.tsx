@@ -87,7 +87,7 @@ const useMention = (options: any = CHARACTERS, trigger: any, editor: any, insert
                         key={char.type || char}
                         onClick={() => {
                             Transforms.select(editor, target)
-                            insertMention(editor, char.type || char)
+                            insert(editor, char.type || char)
                             setTarget(null)
                         }}
                         style={{

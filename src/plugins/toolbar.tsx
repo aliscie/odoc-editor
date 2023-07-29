@@ -4,7 +4,8 @@ import {useFocused, useSlate} from "slate-react";
 import {Button, Icon, Menu, Portal} from "../components/editor_components";
 import {css} from "@emotion/css";
 
-export const toggleFormat = (editor: BaseEditor, format: string) => {
+// export const toggleFormat = (editor: BaseEditor, format: string) => {
+    export const toggleFormat = (editor: any, format: string) => {
     const isActive = isFormatActive(editor, format)
     const match: any = {[format]: isActive ? null : true};
     Transforms.setNodes(
@@ -14,7 +15,8 @@ export const toggleFormat = (editor: BaseEditor, format: string) => {
     )
 }
 
-const isFormatActive = (editor: BaseEditor, format: string) => {
+// const isFormatActive = (editor: BaseEditor, format: string) => {
+const isFormatActive = (editor: any, format: string) => {
     const [match] = Editor.nodes(editor, {
         match: (n: any) => n[format] === true,
         mode: 'all',
