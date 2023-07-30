@@ -1,12 +1,16 @@
-import 'prismjs/components/prism-javascript'
-import 'prismjs/components/prism-jsx'
-import 'prismjs/components/prism-typescript'
-import 'prismjs/components/prism-tsx'
-import 'prismjs/components/prism-markdown'
-import 'prismjs/components/prism-python'
-import 'prismjs/components/prism-php'
-import 'prismjs/components/prism-sql'
-import 'prismjs/components/prism-java'
+import "prismjs-components-importer/cjs/prism-typescript";
+import "prismjs-components-importer/cjs/prism-jsx";
+import "prismjs-components-importer/cjs/prism-python";
+
+// import 'prismjs/components/prism-javascript'
+// import 'prismjs/components/prism-jsx'
+// import 'prismjs/components/prism-typescript'
+// import 'prismjs/components/prism-tsx'
+// import 'prismjs/components/prism-markdown'
+// import 'prismjs/components/prism-python'
+// import 'prismjs/components/prism-php'
+// import 'prismjs/components/prism-sql'
+// import 'prismjs/components/prism-java'
 import React, {useCallback, useState} from 'react'
 import {createEditor, Editor, Element, Node, Range, Transforms,} from 'slate'
 import {
@@ -19,17 +23,14 @@ import {
     useSlateStatic,
     withReact,
 } from 'slate-react'
-import {withHistory} from 'slate-history'
 import isHotkey from 'is-hotkey'
 import {css} from '@emotion/css'
-import {Button, Icon} from "../components/editor_components";
-import {normalizeTokens} from "./normalize-tokens";
+import {Button, Icon} from "../../components/editor_components";
+import {normalizeTokens} from "../normalize-tokens";
 import Prism from "prismjs";
-import codeInitialValue from "./code_initValue";
+import codeInitialValue, {CodeBlockType, CodeLineType, ParagraphType} from "./code_initValue";
+import {withHistory} from "slate-history";
 
-export const ParagraphType = 'paragraph'
-export const CodeBlockType = 'code-block'
-export const CodeLineType = 'code-line'
 
 export const useCode = (editor: any) => {
     // const [editor] = useState(() => withHistory(withReact(createEditor())))
@@ -37,22 +38,32 @@ export const useCode = (editor: any) => {
     const codeDecorate: any = useDecorate(editor)
     const codeOnKeyDown: any = useOnKeydown(editor)
     return {codeDecorate, codeOnKeyDown}
-    // return (
-    //     <Slate editor={editor} initialValue={codeInitialValue}>
-    //         <ExampleToolbar/>
-    //         <SetNodeToDecorations/>
-    //         <Editable
-    //             decorate={codeDecorate}
-    //             renderElement={ElementWrapper}
-    //             renderLeaf={renderLeaf}
-    //             onKeyDown={codeOnKeyDown}
-    //         />
-    //         <style>{prismThemeCss}</style>
-    //     </Slate>
-    // )
+
 }
 
-const ElementWrapper = (props: RenderElementProps) => {
+
+// export const CodeEditorSample = () => {
+//     const [editor] = useState(() => withHistory(withReact(createEditor())))
+//
+//     const codeDecorate: any = useDecorate(editor)
+//     const codeOnKeyDown: any = useOnKeydown(editor)
+//     return (
+//         <Slate editor={editor} initialValue={codeInitialValue}>
+//             {/*<ExampleToolbar/>*/}
+//             <CodeSetNodeToDecorations/>
+//             <Editable
+//                 decorate={codeDecorate}
+//                 renderElement={CodeElementWrapper}
+//                 renderLeaf={codeRenderLeaf}
+//                 onKeyDown={codeOnKeyDown}
+//             />
+//             <style>{prismThemeCss}</style>
+//         </Slate>
+//     )
+// }
+
+export const CodeOptions = [CodeBlockType, CodeLineType];
+export const CodeElementWrapper = (props: RenderElementProps) => {
     const {attributes, children, element}: any = props
     const editor: any = useSlateStatic()
 
@@ -143,16 +154,16 @@ const CodeBlockButton = () => {
     )
 }
 
-const renderLeaf = (props: RenderLeafProps) => {
-    const {attributes, children, leaf} = props
-    const {text, ...rest} = leaf
-
-    return (
-        <span {...attributes} className={Object.keys(rest).join(' ')}>
-      {children}
-    </span>
-    )
-}
+// export const codeRenderLeaf = (props: RenderLeafProps) => {
+//     const {attributes, children, leaf} = props
+//     const {text, ...rest} = leaf
+//
+//     return (
+//         <span {...attributes} className={Object.keys(rest).join(' ')}>
+//       {children}
+//     </span>
+//     )
+// }
 
 const useDecorate = (editor: any) => {
     return useCallback(([node, path]: any) => {
@@ -213,7 +224,7 @@ const getChildNodeToDecorations: any = ([block, blockPath]: any) => {
 }
 
 // precalculate editor.nodeToDecorations map to use it inside decorate function then
-const SetNodeToDecorations = () => {
+export const CodeSetNodeToDecorations = () => {
     const editor: any = useSlate()
 
     const blockEntries: any = Array.from(
@@ -293,7 +304,7 @@ const mergeMaps = <K, V>(...maps: Map<K, V>[]) => {
 // Prismjs theme stored as a string instead of emotion css function.
 // It is useful for copy/pasting different themes. Also lets keeping simpler Leaf implementation
 // In the real project better to use just css file
-const prismThemeCss = `
+export const prismThemeCss = `
 /**
  * prism.js default theme for JavaScript, CSS and HTML
  * Based on dabblet (http://dabblet.com)
@@ -402,8 +413,8 @@ pre[class*="language-"] {
 .language-css .token.string,
 .style .token.string {
     color: #9a6e3a;
-    /* This background color was intended by the author of this theme. */
-    background: hsla(0, 0%, 100%, .5);
+    // /* This background color was intended by the author of this theme. */
+    // background: hsla(0, 0%, 100%, .5);
 }
 
 .token.atrule,

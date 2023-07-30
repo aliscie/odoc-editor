@@ -1,5 +1,9 @@
-import {CodeBlockType, CodeLineType, ParagraphType} from "./code";
 import {Element} from "slate";
+
+
+export const ParagraphType = 'paragraph'
+export const CodeBlockType = 'code-block'
+export const CodeLineType = 'code-line'
 
 
 export const toChildren = (content: string) => [{text: content}]
@@ -8,6 +12,7 @@ const toCodeLines = (content: string): Element[] =>
         .split('\n')
         .map(line => ({type: CodeLineType, children: toChildren(line)}))
 
+
 const codeInitialValue: any[] = [
     {
         type: ParagraphType,
@@ -15,33 +20,34 @@ const codeInitialValue: any[] = [
             "Here's one containing a single paragraph block with some text in it:"
         ),
     },
-    {
-        type: CodeBlockType,
-        language: 'jsx',
-        children: toCodeLines(`// Add the initial value.
-const initialValue = [
-  {
-    type: 'paragraph',
-    children: [{ text: 'A line of text in a paragraph.' }]
-  }
-]
+    // {
+    //     type: CodeBlockType,
+    //     language: 'jsx',
+    //     children: toCodeLines(`// Add the initial value.
 
-const App = () => {
-  const [editor] = useState(() => withReact(createEditor()))
-
-  return (
-    <Slate editor={editor} initialValue={initialValue}>
-      <Editable />
-    </Slate>
-  )
-}`),
-    },
-    {
-        type: ParagraphType,
-        children: toChildren(
-            'If you are using TypeScript, you will also need to extend the Editor with ReactEditor and add annotations as per the documentation on TypeScript. The example below also includes the custom types required for the rest of this example.'
-        ),
-    },
+// const initialValue = [
+//   {
+//     type: 'paragraph',
+//     children: [{ text: 'A line of text in a paragraph.' }]
+//   }
+// ]
+//
+// const App = () => {
+//   const [editor] = useState(() => withReact(createEditor()))
+//
+//   return (
+//     <Slate editor={editor} initialValue={initialValue}>
+//       <Editable />
+//     </Slate>
+//   )
+// }`),
+//     },
+//     {
+//         type: ParagraphType,
+//         children: toChildren(
+//             'If you are using TypeScript, you will also need to extend the Editor with ReactEditor and add annotations as per the documentation on TypeScript. The example below also includes the custom types required for the rest of this example.'
+//         ),
+//     },
     {
         type: CodeBlockType,
         language: 'typescript',

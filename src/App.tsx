@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import Editor from "./slate_editor/main";
+import codeInitialValue from "./plugins/code/code_initValue";
 
 const initialValue: any[] = [
     {
@@ -146,8 +147,7 @@ let table = {
     ],
 }
 
-function
-App() {
+function App() {
     const [search, setSearch] = useState<string | undefined>()
 
     return (
@@ -158,6 +158,8 @@ App() {
                     setSearch(e.target.value)
 
                 }}/>
+                {/*<CodeEditorSample/>*/}
+
                 <Editor
                     onInsertComponent={(e: any, c: any) => {
                         if (c.type == "ol") {
@@ -177,7 +179,7 @@ App() {
                     ]}
                     mentionOptions={["Ali", "James", "Aman"]}
                     renderElement={Element}
-                    searchOptions={"gi"} search={search} data={initialValue}/>
+                    searchOptions={"gi"} search={search} data={codeInitialValue}/>
             </header>
         </div>
     );

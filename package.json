@@ -28,6 +28,7 @@
     "@types/slate-react": "^0.50.1",
     "is-hotkey": "^0.2.0",
     "prismjs": "^1.29.0",
+    "prismjs-components-importer": "^0.2.0",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",

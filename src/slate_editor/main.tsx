@@ -8,7 +8,7 @@ import "./style/main.css"
 import useMention, {insertMention, Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
 import {createEditor, Editor as SlateEditor, NodeEntry, Transforms} from "slate";
-import useCode from "../plugins/code";
+import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
 
 
 const Element = (props: any) => {
@@ -17,8 +17,12 @@ const Element = (props: any) => {
     if (custom_renderer) {
         return custom_renderer;
     }
-
     let Tag = element.type || "p"
+    if (CodeOptions.includes(element.type)) {
+        return <CodeElementWrapper {...props}/>
+    }
+
+
     switch (Tag) {
         case 'mention':
             return <Mention {...props} />
@@ -180,7 +184,10 @@ const Editor = (props: EditorProps) => {
         const decorations: Range[] = [];
 
         // Concatenate the decorations arrays
-        decorations.push(...decorate(entry), ...codeDecorate(entry));
+        decorations.push(
+            ...decorate(entry),
+            ...codeDecorate(entry)
+        );
 
         // Return the combined decorations
         return decorations;
@@ -200,6 +207,8 @@ const Editor = (props: EditorProps) => {
             {plugins()}
             {MentionPortal}
             {ComponentsPortal}
+            <CodeSetNodeToDecorations/>
+            <style>{prismThemeCss}</style>
             <Editable
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
@@ -232,6 +241,9 @@ const Editor = (props: EditorProps) => {
 
 // @ts-ignore
 const Leaf = ({attributes, children, leaf}) => {
+    // const {attributes, children, leaf} = props
+    const {text, ...rest} = leaf
+
     if (leaf.bold) {
         children = <strong>{children}</strong>
     }
@@ -243,14 +255,16 @@ const Leaf = ({attributes, children, leaf}) => {
     if (leaf.underlined) {
         children = <u>{children}</u>
     }
-
+    let classNames = css`
+      font-weight: ${leaf.bold && 'bold'};
+      background-color: ${leaf.highlight && '#ffeeba'};
+    `;
     return <span
         {...attributes}
         {...(leaf.highlight && {'data-cy': 'search-highlighted'})}
-        className={css`
-          font-weight: ${leaf.bold && 'bold'};
-          background-color: ${leaf.highlight && '#ffeeba'};
-        `}
+        className={
+            `${Object.keys(rest).join(' ')} ${classNames}`
+        }
     >
       {children}
     </span>
