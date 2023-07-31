@@ -9,7 +9,8 @@ import useMention, {insertMention, Mention, withMentions} from "../plugins/menti
 import {withHistory} from "slate-history";
 import {createEditor, Editor as SlateEditor, NodeEntry, Transforms} from "slate";
 import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
-import useMarkDown, {MarkDownElement, MarkDownOptions, withMarkDownShortcuts} from "../plugins/markdown/mark_down";
+import useMarkDown, {MarkDownElement, MarkDownOptions} from "../plugins/markdown/mark_down";
+import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
 
 
 const Element = (props: any) => {
