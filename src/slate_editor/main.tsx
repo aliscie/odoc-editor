@@ -9,6 +9,7 @@ import useMention, {insertMention, Mention, withMentions} from "../plugins/menti
 import {withHistory} from "slate-history";
 import {createEditor, Editor as SlateEditor, NodeEntry, Transforms} from "slate";
 import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
+import useMarkDown, {MarkDownElement, MarkDownOptions, withMarkDownShortcuts} from "../plugins/markdown/mark_down";
 
 
 const Element = (props: any) => {
@@ -20,6 +21,9 @@ const Element = (props: any) => {
     let Tag = element.type || "p"
     if (CodeOptions.includes(element.type)) {
         return <CodeElementWrapper {...props}/>
+    }
+    if (MarkDownOptions.includes(element.type)) {
+        return <MarkDownElement {...props} />
     }
 
 
@@ -109,7 +113,7 @@ interface EditorProps {
 
 const Editor = (props: EditorProps) => {
     // const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const editor = useMemo(() => withMentions(withReact(withHistory(createEditor()))), [])
+    const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(createEditor())))), [])
     let [MentionPortal,
         mentionOnChange,
         mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
@@ -144,40 +148,40 @@ const Editor = (props: EditorProps) => {
         return type
     }
 
-    function insertAtEnter(e: KeyboardEvent) {
-
-        if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-            e.preventDefault()
-            let id = randomString();
-            let type = "p";
-            e.preventDefault()
-            const component: any = {
-                id,
-                type,
-                children: [{text: ''}],
-            }
-            let at = [editor.selection.anchor.path[0] + 1]
-            Transforms.insertNodes(editor, component,
-                {at}
-            )
-            Transforms.move(editor)
-
-        } else if (e.key === "Enter" && e.shiftKey) {
-            e.preventDefault()
-            editor.insertText("\n")
-        } else if (e.key === 'Enter') {
-            let id = randomString();
-            let type = getType(editor);
-            e.preventDefault()
-            const mention: any = {
-                id,
-                type,
-                children: [{text: ''}],
-            }
-            Transforms.insertNodes(editor, mention)
-            document.getElementById(id)?.focus()
-        }
-    }
+    // function insertAtEnter(e: KeyboardEvent) {
+    //
+    //     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+    //         e.preventDefault()
+    //         let id = randomString();
+    //         let type = "p";
+    //         e.preventDefault()
+    //         const component: any = {
+    //             id,
+    //             type,
+    //             children: [{text: ''}],
+    //         }
+    //         let at = [editor.selection.anchor.path[0] + 1]
+    //         Transforms.insertNodes(editor, component,
+    //             {at}
+    //         )
+    //         Transforms.move(editor)
+    //
+    //     } else if (e.key === "Enter" && e.shiftKey) {
+    //         e.preventDefault()
+    //         editor.insertText("\n")
+    //     } else if (e.key === 'Enter') {
+    //         let id = randomString();
+    //         let type = getType(editor);
+    //         e.preventDefault()
+    //         const mention: any = {
+    //             id,
+    //             type,
+    //             children: [{text: ''}],
+    //         }
+    //         Transforms.insertNodes(editor, mention)
+    //         document.getElementById(id)?.focus()
+    //     }
+    // }
 
 
     const combinedDecorate: any = (entry: NodeEntry) => {
@@ -192,6 +196,7 @@ const Editor = (props: EditorProps) => {
         // Return the combined decorations
         return decorations;
     };
+    let {markDownHandleDOMBeforeInput} = useMarkDown(editor);
 
     return (
         <Slate
@@ -213,7 +218,7 @@ const Editor = (props: EditorProps) => {
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
                     componentsOnKeyDown(e)
-                    insertAtEnter(e)
+                    // insertAtEnter(e)
                     codeOnKeyDown(e)
                 }}
                 decorate={combinedDecorate}
@@ -231,6 +236,8 @@ const Editor = (props: EditorProps) => {
                         case 'formatUnderline':
                             event.preventDefault()
                             return toggleFormat(editor, 'underlined')
+                        default:
+                            return markDownHandleDOMBeforeInput(event)
                     }
                 }}
             />
