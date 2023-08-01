@@ -161,15 +161,16 @@ function App() {
                 {/*<CodeEditorSample/>*/}
 
                 <Editor
-                    onInsertComponent={(e: any, c: any) => {
-                        if (c.type == "ol") {
-                            // console.log({x: c.children[0].children[0]})
-                            // Transforms.move(e, {at: [0, 0], distance: 0})
-                        }
-
-                    }}
+                    // onInsertComponent={(e: any, c: any) => {
+                    //     if (c.type == "ol") {
+                    //         // console.log({x: c.children[0].children[0]})
+                    //         // Transforms.move(e, {at: [0, 0], distance: 0})
+                    //     }
+                    //
+                    // }}
                     componentsOptions={[
                         {...table},
+                        {type: 'code-block', language: 'typescript',children:[{text:""}]},
                         {type: 'comment'},
                         {type: "quote"},
                         {

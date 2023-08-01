@@ -93,7 +93,7 @@ const useMention = (options: any = CHARACTERS, trigger: any, editor: any, insert
                         style={{
                             padding: '1px 3px',
                             borderRadius: '3px',
-                            background: i === index ? '#B4D5FF' : 'transparent',
+                            background: i === index ? 'rgb(57 91 135)' : 'transparent',
                         }}
                     >
                         {char.type || char}
