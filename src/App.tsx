@@ -55,8 +55,8 @@ const initialValue: any[] = [
 
 
 const Element = (props: any) => {
-    const {attributes, children, element} = props
-    let Tag = element.type
+    const {attributes, children, element, id} = props
+    let Tag = element.type || "p"
     switch (Tag) {
         case 'table':
             return (
@@ -69,13 +69,12 @@ const Element = (props: any) => {
         case 'table-cell':
             return <td {...attributes}>{children}</td>
         case 'h1':
-            return <h1 placeholder={"Enter somthing or hit @ for mentions or / for inserting components"}
-                       {...attributes}>{children}</h1>
+            return <h1
+                {...attributes}>{children}</h1>
         case 'comment':
             return <div className={"comment"} {...attributes}>{children}</div>
-            break
     }
-    return null
+    return <Tag placeholder={"enter somthing"} id={element.id}  {...attributes}>{children}</Tag>
 }
 
 let table = {
@@ -161,6 +160,7 @@ function App() {
                 {/*<CodeEditorSample/>*/}
 
                 <Editor
+
                     // onInsertComponent={(e: any, c: any) => {
                     //     if (c.type == "ol") {
                     //         // console.log({x: c.children[0].children[0]})
@@ -168,9 +168,10 @@ function App() {
                     //     }
                     //
                     // }}
+
                     componentsOptions={[
                         {...table},
-                        {type: 'code-block', language: 'typescript',children:[{text:""}]},
+                        {type: 'code-block', language: 'typescript', children: [{text: ""}]},
                         {type: 'comment'},
                         {type: "quote"},
                         {

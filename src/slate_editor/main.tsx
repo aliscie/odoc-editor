@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import {Editable, Slate, withReact} from 'slate-react'
 import {toggleFormat} from "../plugins/toolbar";
 import plugins from "../plugins/main";
@@ -7,7 +7,7 @@ import {css} from "@emotion/css";
 import "./style/main.css"
 import useMention, {insertMention, Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
-import {createEditor, Editor as SlateEditor, NodeEntry, Transforms} from "slate";
+import {createEditor, NodeEntry, Transforms} from "slate";
 import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
 import useMarkDown, {MarkDownElement, MarkDownOptions} from "../plugins/markdown/mark_down";
 import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
@@ -15,10 +15,7 @@ import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
 
 const Element = (props: any) => {
     const {attributes, children, element} = props
-    let custom_renderer = props.renderElement && props.renderElement(props);
-    if (custom_renderer) {
-        return custom_renderer;
-    }
+
     let Tag = element.type || "p"
     if (CodeOptions.includes(element.type)) {
         return <CodeElementWrapper {...props}/>
@@ -32,11 +29,13 @@ const Element = (props: any) => {
         case 'mention':
             return <Mention {...props} />
         case 'quote':
-            return <b {...attributes}>{children}</b>
+            return <b id={element.id}  {...attributes}>{children}</b>
         default:
             break
     }
-    return <Tag {...attributes}>{children}</Tag>
+
+    let custom_renderer = props.renderElement && props.renderElement(props);
+    return custom_renderer
 }
 
 function randomString() {
@@ -56,63 +55,9 @@ interface EditorProps {
 }
 
 
-// const withLayout = (editor: SlateEditor) => {
-//     const {normalizeNode} = editor;
-//
-//     editor.normalizeNode = ([node, path]) => {
-//         if (path.length === 0) {
-//             if (editor.children.length <= 1 && SlateEditor.string(editor, [0, 0]) === '') {
-//                 const title: any = {
-//                     type: 'title',
-//                     children: [{text: 'Untitled'}],
-//                 };
-//                 Transforms.insertNodes(editor, title, {
-//                     at: path.concat(0),
-//                     select: true,
-//                 });
-//             }
-//
-//             if (editor.children.length < 2) {
-//                 const paragraph: any = {
-//                     type: 'paragraph',
-//                     children: [{text: ''}],
-//                 };
-//                 Transforms.insertNodes(editor, paragraph, {at: path.concat(1)});
-//             }
-//
-//             for (const [child, childPath] of Node.children(editor, path)) {
-//                 let type: string;
-//                 const slateIndex = childPath[0];
-//                 const enforceType = (type: string) => {
-//                     if (SlateElement.isElement(child) && child.type !== type) {
-//                         const newProperties: Partial<SlateElement> = {type};
-//                         Transforms.setNodes<SlateElement>(editor, newProperties, {
-//                             at: childPath,
-//                         });
-//                     }
-//                 };
-//
-//                 switch (slateIndex) {
-//                     case 0:
-//                         type = 'title';
-//                         enforceType(type);
-//                         break;
-//                     case 1:
-//                         type = 'paragraph';
-//                         enforceType(type);
-//                     default:
-//                         break;
-//                 }
-//             }
-//         }
-//
-//         return normalizeNode([node, path]);
-//     };
-//
-//     return editor;
-// };
-
 const Editor = (props: EditorProps) => {
+    let [value, setValue]: any = useState(props.data)
+
     // const editor = useMemo(() => withHistory(withReact(createEditor())), [])
     const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(createEditor())))), [])
     let [MentionPortal,
@@ -134,58 +79,13 @@ const Editor = (props: EditorProps) => {
 
     // let editor = mentionEditor;
     let {decorate} = SearchHighlightingExample(props.searchOptions || "", props.search || "");
-    const renderElement = useCallback((renderProps: any) => <Element {...renderProps} {...props} />, [])
-
-
-    // a functoin that get the current slateNode
-    function getType(editor: any) {
-        let type = "";
-        let [match] = SlateEditor.nodes(editor, {
-            match: (n: any) => {
-                n.type && (type = n.type)
-                return false;
-            },
-        })
-        return type
-    }
-
-    // function insertAtEnter(e: KeyboardEvent) {
-    //
-    //     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-    //         e.preventDefault()
-    //         let id = randomString();
-    //         let type = "p";
-    //         e.preventDefault()
-    //         const component: any = {
-    //             id,
-    //             type,
-    //             children: [{text: ''}],
-    //         }
-    //         let at = [editor.selection.anchor.path[0] + 1]
-    //         Transforms.insertNodes(editor, component,
-    //             {at}
-    //         )
-    //         Transforms.move(editor)
-    //
-    //     } else if (e.key === "Enter" && e.shiftKey) {
-    //         e.preventDefault()
-    //         editor.insertText("\n")
-    //     } else if (e.key === 'Enter') {
-    //         let id = randomString();
-    //         let type = getType(editor);
-    //         e.preventDefault()
-    //         const mention: any = {
-    //             id,
-    //             type,
-    //             children: [{text: ''}],
-    //         }
-    //         Transforms.insertNodes(editor, mention)
-    //         document.getElementById(id)?.focus()
-    //     }
-    // }
+    const renderElement = useCallback((renderProps: any) => <Element
+        {...renderProps} {...props} />, []);
 
 
     const combinedDecorate: any = (entry: NodeEntry) => {
+
+        // console.log({selection})
         const decorations: Range[] = [];
 
         // Concatenate the decorations arrays
@@ -198,6 +98,39 @@ const Editor = (props: EditorProps) => {
         return decorations;
     };
     let {markDownHandleDOMBeforeInput} = useMarkDown(editor);
+    let {selection} = editor;
+
+    const clickListener = useCallback(() => {
+        // const isEmptyParagraphAlreadyAdded = editor.children.some(node => {
+        //     return node.text === '';
+        // });
+
+        // if (!isEmptyParagraphAlreadyAdded) {
+        // Create a new paragraph node
+        const newParagraph: any = {
+            id: randomString(),
+            test: 's',
+            type: 'p',
+            children: [{text: ''}],
+        };
+
+
+        let is_last_empty = value[value.length - 1]['children'].find((e: any) => e.text !== '');
+        let click_position = editor.selection && editor.selection.anchor.path[0];
+        let is_click_bellow = (value.length - 1) === click_position;
+        is_last_empty && is_click_bellow && Transforms.insertNodes(editor, newParagraph, {at: editor.selection});
+    }, [value, editor]);
+
+    useEffect(() => {
+        // Add click event listener to the window
+        window.addEventListener('mousedown', clickListener);
+
+        // Clean up the event listener on unmount
+        return () => {
+            window.removeEventListener('mousedown', clickListener);
+        };
+    }, [clickListener]);
+
 
     return (
         <Slate
@@ -206,16 +139,18 @@ const Editor = (props: EditorProps) => {
                 props.onChange && props.onChange(e)
                 mentionOnChange()
                 componentsOnChange()
+                setValue(e)
             }}
 
             editor={editor}
-            initialValue={props.data}>
+            initialValue={value}>
             {plugins()}
             {MentionPortal}
             {ComponentsPortal}
             <CodeSetNodeToDecorations/>
             <style>{prismThemeCss}</style>
             <Editable
+                style={{height: window.innerHeight}}
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
                     componentsOnKeyDown(e)
@@ -225,7 +160,6 @@ const Editor = (props: EditorProps) => {
                 decorate={combinedDecorate}
                 renderElement={renderElement}
                 renderLeaf={props => <Leaf {...props} />}
-                placeholder="Enter some text..."
                 onDOMBeforeInput={(event: InputEvent) => {
                     switch (event.inputType) {
                         case 'formatBold':
