@@ -15,7 +15,9 @@ const toCodeLines = (content: string): Element[] =>
 
 const codeInitialValue: any[] = [
     {
-        type: ParagraphType,
+        // forced: true,
+        // index: 1,
+        type: 'comment',
         children: toChildren(
             "Here's one containing a single paragraph block with some text in it:"
         ),

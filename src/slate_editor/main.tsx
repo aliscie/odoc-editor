@@ -11,6 +11,7 @@ import {createEditor, NodeEntry, Transforms} from "slate";
 import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
 import useMarkDown, {MarkDownElement, MarkDownOptions} from "../plugins/markdown/mark_down";
 import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
+import withLayout from "./withs/with_layout";
 
 
 const Element = (props: any) => {
@@ -57,9 +58,15 @@ interface EditorProps {
 
 const Editor = (props: EditorProps) => {
     let [value, setValue]: any = useState(props.data)
+    if (value.length === 0) {
+        setValue([{
+            type: 'p',
+            children: [{text: ''}]
+        }])
+    }
 
     // const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(createEditor())))), [])
+    const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(withLayout(createEditor()))))), [])
     let [MentionPortal,
         mentionOnChange,
         mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
@@ -98,7 +105,6 @@ const Editor = (props: EditorProps) => {
         return decorations;
     };
     let {markDownHandleDOMBeforeInput} = useMarkDown(editor);
-    let {selection} = editor;
 
     const clickListener = useCallback(() => {
         // const isEmptyParagraphAlreadyAdded = editor.children.some(node => {
@@ -115,10 +121,27 @@ const Editor = (props: EditorProps) => {
         };
 
 
-        let is_last_empty = value[value.length - 1]['children'].find((e: any) => e.text !== '');
+        let is_last_empty = value[value.length - 1]['children'].find((e: any) => e.text === '');
         let click_position = editor.selection && editor.selection.anchor.path[0];
         let is_click_bellow = (value.length - 1) === click_position;
-        is_last_empty && is_click_bellow && Transforms.insertNodes(editor, newParagraph, {at: editor.selection});
+
+        let position = {
+            "anchor": {
+                "path": [
+                    value.length - 1,
+                    0
+                ],
+                "offset": editor.selection && editor.selection.anchor.offset
+            },
+            "focus": {
+                "path": [
+                    value.length - 1,
+                    0
+                ],
+                "offset": editor.selection && editor.selection.focus.offset
+            }
+        }
+        !is_last_empty && is_click_bellow && Transforms.insertNodes(editor, newParagraph, {at: position});
     }, [value, editor]);
 
     useEffect(() => {

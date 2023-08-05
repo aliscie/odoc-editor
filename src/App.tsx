@@ -72,7 +72,7 @@ const Element = (props: any) => {
             return <h1
                 {...attributes}>{children}</h1>
         case 'comment':
-            return <div className={"comment"} {...attributes}>{children}</div>
+            return <p style={{color: "red"}} className={"comment"} {...attributes}>{children}</p>
     }
     return <Tag placeholder={"enter somthing"} id={element.id}  {...attributes}>{children}</Tag>
 }
