@@ -12,6 +12,7 @@ import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, pris
 import useMarkDown, {MarkDownElement, MarkDownOptions} from "../plugins/markdown/mark_down";
 import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
 import withLayout from "./withs/with_layout";
+import Autocomplete from "../plugins/auto_complete/auto_complete";
 
 
 const Element = (props: any) => {
@@ -52,7 +53,8 @@ interface EditorProps {
     data: any
     mentionOptions?: any[]
     componentsOptions?: any
-    onInsertComponent?: any
+    onInsertComponent?: any,
+    autoCompleteOptions?: any
 }
 
 
@@ -170,6 +172,8 @@ const Editor = (props: EditorProps) => {
             {plugins()}
             {MentionPortal}
             {ComponentsPortal}
+            <Autocomplete words={props.autoCompleteOptions}/>
+
             <CodeSetNodeToDecorations/>
             <style>{prismThemeCss}</style>
             <Editable

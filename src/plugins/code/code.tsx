@@ -30,6 +30,7 @@ import {normalizeTokens} from "../normalize-tokens";
 import Prism from "prismjs";
 import codeInitialValue, {CodeBlockType, CodeLineType, ParagraphType} from "./code_initValue";
 import {withHistory} from "slate-history";
+import Autocomplete from "../auto_complete/auto_complete";
 
 
 export const useCode = (editor: any) => {

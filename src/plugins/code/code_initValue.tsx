@@ -22,6 +22,19 @@ const codeInitialValue: any[] = [
             "Here's one containing a single paragraph block with some text in it:"
         ),
     },
+    {
+        "type": "code-block",
+        "language": "typescript",
+        "children": [
+
+            {
+                "type": "code-line",
+                "children": [{"text": ""}]
+            },
+
+        ]
+    },
+
     // {
     //     type: CodeBlockType,
     //     language: 'jsx',
@@ -53,20 +66,20 @@ const codeInitialValue: any[] = [
     {
         type: CodeBlockType,
         language: 'typescript',
-        children: toCodeLines(`// TypeScript users only add this code
+        children: toCodeLines(`
+// TypeScript users only add this code
 import { BaseEditor, Descendant } from 'slate'
 import { ReactEditor } from 'slate-react'
-
 type CustomElement = { type: 'paragraph'; children: CustomText[] }
 type CustomText = { text: string }
-
 declare module 'slate' {
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor
     Element: CustomElement
     Text: CustomText
   }
-}`),
+}
+`),
     },
     {
         type: ParagraphType,

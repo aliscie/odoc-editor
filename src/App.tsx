@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import Editor from "./slate_editor/main";
 import codeInitialValue from "./plugins/code/code_initValue";
+import Autocomplete from "./plugins/auto_complete/auto_complete";
 
 const initialValue: any[] = [
     {
@@ -146,6 +147,40 @@ let table = {
     ],
 }
 
+
+const words = [
+    "COL('name')",
+    "COL('amount')",
+    "COL('sender')",
+    "COL('reciver')",
+    "Apple",
+    "Pencil",
+    "Pen",
+    "Chair",
+    "Helmet",
+    "Grapes",
+    "Tub",
+    "Trophy",
+    "Cookie",
+    "Donut",
+    "Shit",
+    "Shitfit",
+    "Bat",
+    "Ash",
+    "Bell",
+    "Chat",
+    "Ball",
+    "Eye",
+    "Fish",
+    "Zip",
+    "Game",
+    "Juice",
+    "Orange",
+    "Fan",
+    "Ice",
+];
+
+
 function App() {
     const [search, setSearch] = useState<string | undefined>()
 
@@ -157,10 +192,10 @@ function App() {
                     setSearch(e.target.value)
 
                 }}/>
-                {/*<CodeEditorSample/>*/}
+                {/*<Autocomplete >test</Autocomplete>*/}
 
                 <Editor
-
+                    autoCompleteOptions={words}
                     // onInsertComponent={(e: any, c: any) => {
                     //     if (c.type == "ol") {
                     //         // console.log({x: c.children[0].children[0]})
@@ -171,7 +206,18 @@ function App() {
 
                     componentsOptions={[
                         {...table},
-                        {type: 'code-block', language: 'typescript', children: [{text: ""}]},
+                        {
+                            "type": "code-block",
+                            "language": "typescript",
+                            "children": [
+
+                                {
+                                    "type": "code-line",
+                                    "children": [{"text": ""}]
+                                },
+
+                            ]
+                        },
                         {type: 'comment'},
                         {type: "quote"},
                         {
