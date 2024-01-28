@@ -13,16 +13,19 @@ import useMarkDown, {MarkDownElement, MarkDownOptions} from "../plugins/markdown
 import {withMarkDownShortcuts} from "../plugins/markdown/with_markdown";
 import withLayout from "./withs/with_layout";
 import Autocomplete from "../plugins/auto_complete/auto_complete";
+import withId from "./withs/with_id";
+import randomString from "../utiles/rand_string";
+import withFooter from "./withs/with_footer";
 
 
 const Element = (props: any) => {
     const {attributes, children, element} = props
 
-    let Tag = element.type || "p"
-    if (CodeOptions.includes(element.type)) {
+    let Tag = element && element.type || "p"
+    if (CodeOptions.includes(element && element.type)) {
         return <CodeElementWrapper {...props}/>
     }
-    if (MarkDownOptions.includes(element.type)) {
+    if (MarkDownOptions.includes(element && element.type)) {
         return <MarkDownElement {...props} />
     }
 
@@ -40,10 +43,6 @@ const Element = (props: any) => {
     return custom_renderer
 }
 
-function randomString() {
-    return Math.random().toString(36).substring(7);
-}
-
 
 interface EditorProps {
     renderElement?: any
@@ -54,7 +53,10 @@ interface EditorProps {
     mentionOptions?: any[]
     componentsOptions?: any
     onInsertComponent?: any,
-    autoCompleteOptions?: any
+    autoCompleteOptions?: any,
+    insertFooter?: boolean,
+    preventSplit?: boolean,
+    preventToolbar?: boolean,
 }
 
 
@@ -68,7 +70,13 @@ const Editor = (props: EditorProps) => {
     }
 
     // const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-    const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(withLayout(createEditor()))))), [])
+    const editor = useMemo(() => withMentions(withReact(withMarkDownShortcuts(withHistory(withId(withFooter(withLayout(createEditor()))))))), [])
+    if (props.preventSplit) {
+        editor.insertBreak = () => {
+        }
+    }
+
+
     let [MentionPortal,
         mentionOnChange,
         mentionOnKeyDown] = useMention(props.mentionOptions, /^@(\w+)$/, editor, insertMention);
@@ -108,58 +116,10 @@ const Editor = (props: EditorProps) => {
     };
     let {markDownHandleDOMBeforeInput} = useMarkDown(editor);
 
-    const clickListener = useCallback(() => {
-        // const isEmptyParagraphAlreadyAdded = editor.children.some(node => {
-        //     return node.text === '';
-        // });
-
-        // if (!isEmptyParagraphAlreadyAdded) {
-        // Create a new paragraph node
-        const newParagraph: any = {
-            id: randomString(),
-            test: 's',
-            type: 'p',
-            children: [{text: ''}],
-        };
-
-
-        let is_last_empty = value[value.length - 1]['children'].find((e: any) => e.text === '');
-        let click_position = editor.selection && editor.selection.anchor.path[0];
-        let is_click_bellow = (value.length - 1) === click_position;
-
-        let position = {
-            "anchor": {
-                "path": [
-                    value.length - 1,
-                    0
-                ],
-                "offset": editor.selection && editor.selection.anchor.offset
-            },
-            "focus": {
-                "path": [
-                    value.length - 1,
-                    0
-                ],
-                "offset": editor.selection && editor.selection.focus.offset
-            }
-        }
-        !is_last_empty && is_click_bellow && Transforms.insertNodes(editor, newParagraph, {at: position});
-    }, [value, editor]);
-
-    useEffect(() => {
-        // Add click event listener to the window
-        window.addEventListener('mousedown', clickListener);
-
-        // Clean up the event listener on unmount
-        return () => {
-            window.removeEventListener('mousedown', clickListener);
-        };
-    }, [clickListener]);
-
 
     return (
         <Slate
-
+            key={'1'}
             onChange={(e: any) => {
                 props.onChange && props.onChange(e)
                 mentionOnChange()
@@ -169,7 +129,7 @@ const Editor = (props: EditorProps) => {
 
             editor={editor}
             initialValue={value}>
-            {plugins()}
+            {props.preventToolbar !== true && plugins()}
             {MentionPortal}
             {ComponentsPortal}
             <Autocomplete words={props.autoCompleteOptions}/>
@@ -177,13 +137,14 @@ const Editor = (props: EditorProps) => {
             <CodeSetNodeToDecorations/>
             <style>{prismThemeCss}</style>
             <Editable
-                style={{height: window.innerHeight}}
+                // style={{height: window.innerHeight}}
                 onKeyDown={(e: any) => {
                     mentionOnKeyDown(e)
                     componentsOnKeyDown(e)
                     // insertAtEnter(e)
                     codeOnKeyDown(e)
                 }}
+
                 decorate={combinedDecorate}
                 renderElement={renderElement}
                 renderLeaf={props => <Leaf {...props} />}

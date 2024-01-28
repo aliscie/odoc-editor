@@ -1,32 +1,13 @@
-/* Autocomplete.css */
+
 * {
-    /*padding: 0;*/
-    /*margin: 0;*/
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
-/*body {*/
-/*    height: 100vh;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.input-container {*/
-/*    position: relative;*/
-/*    !*background-color: #ffffff;*!*/
-/*    width: 25em;*/
-/*    border-radius: 5px;*/
-/*    display: flex;*/
-/*}*/
-
 .content-editable {
+    font-family: "Poppins", sans-serif;
     outline: none;
     border: none;
-    /*background-color: transparent;*/
-    /*color: #000000;*/
-    /*font-size: 25px;*/
     position: relative;
     flex: 1;
     z-index: 2;
@@ -37,29 +18,25 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 100%;
+    /*top: 100%;*/
     left: 0;
-    width: 100%;
-    background-color: #ffffff;
+    background-color: #1e1e1e;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    z-index: 1;
+    z-index: 999;
+    font-size: 15px;
 }
 
 .suggestion {
-    padding: 10px;
-    font-size: 20px;
-    color: #868686;
+    color: #a9a9a9;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.suggestion:hover {
+    color: #5196a1;
+    transition: 0.2s;
 }
 
 .suggestion.selected {
     background-color: #f0f0f0;
 }
-
-/*@media screen and (max-width: 600px) {*/
-/*    .input-container {*/
-/*        width: 80vw;*/
-/*    }*/
-/*}*/

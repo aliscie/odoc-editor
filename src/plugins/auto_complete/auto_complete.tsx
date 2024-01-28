@@ -20,7 +20,8 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     words.sort();
 
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [word, setWord] = useState<string>("");
+    const [target, setTarget] = useState<any>();
+    // const [word, setWord] = useState<string>("");
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number>(-1);
     const ref: any = useRef<HTMLDivElement | null>()
 
@@ -33,6 +34,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
             const wordBefore = Editor.before(editor, start, {unit: 'word'})
             const before = wordBefore && Editor.before(editor, wordBefore)
             let target: any = before && Editor.range(editor, before, start)
+            setTarget(target);
             const domRange: any = ReactEditor.toDOMRange(editor, target)
             const rect = domRange.getBoundingClientRect()
             el.style.top = `${rect.top + window.pageYOffset + 24}px`
@@ -49,20 +51,22 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
     };
 
     const getSuggestions = (currentWord: string): string[] => {
-        const regex = new RegExp("^" + currentWord, "i");
-        return words.filter((word) => regex.test(word));
+        // const regex = new RegExp("^" + currentWord, "i");
+        // return words.filter((word) => regex.test(word));
+        return words.filter((word) =>  word.toLowerCase().includes(currentWord.toLowerCase()));
     };
 
 
     const handleSuggestionClick = (index: number) => {
         if (selection) {
-            Transforms.delete(editor, {
-                at: {
-                    anchor: {...selection.anchor, offset: selection.anchor.offset - word.length},
-                    focus: {...selection.focus},
-                },
-            })
-            setWord("");
+            // Transforms.delete(editor, {
+            //     at: {
+            //         anchor: {...selection.anchor, offset: selection.anchor.offset - word.length},
+            //         focus: {...selection.focus},
+            //     },
+            // })
+            // setWord("");
+            Transforms.select(editor, target)
             Transforms.insertText(editor, suggestions[index]);
             // Clear the current word
         }
@@ -90,7 +94,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                 if (is_not_exact) {
                     clearSuggestion();
                 } else if ((suggestions.length < words.length)) {
-                    setWord(beforeText);
+                    // setWord(beforeText);
                     setSuggestions(suggestions);
                 }
             }
@@ -99,12 +103,12 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
 
     return (
         <>
-            {suggestions.length > 0 && <Portal>
+            {suggestions.length > 0 &&
                 <div
                     style={{
                         top: '-9999px',
                         left: '-9999px',
-                        position: 'absolute',
+                        position: 'fixed',
                         zIndex: 1,
                         padding: '3px',
                         borderRadius: '4px',
@@ -130,7 +134,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
                         </div>
                     ))}
                 </div>
-            </Portal>}
+            }
         </>
     );
 };

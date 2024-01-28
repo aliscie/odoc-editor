@@ -57,7 +57,7 @@ const initialValue: any[] = [
 
 const Element = (props: any) => {
     const {attributes, children, element, id} = props
-    let Tag = element.type || "p"
+    let Tag = element && element.type || "p"
     switch (Tag) {
         case 'table':
             return (
@@ -149,10 +149,10 @@ let table = {
 
 
 const words = [
-    "COL('name')",
+    'COL("name")',
     "COL('amount')",
     "COL('sender')",
-    "COL('reciver')",
+    "COL('receiver')",
     "Apple",
     "Pencil",
     "Pen",
@@ -184,17 +184,22 @@ const words = [
 function App() {
     const [search, setSearch] = useState<string | undefined>()
 
+
+
     return (
         <div className="App">
             <header className="App-header">
                 <h1> Editor is here.</h1>
                 <input onChange={e => {
+
                     setSearch(e.target.value)
 
                 }}/>
                 {/*<Autocomplete >test</Autocomplete>*/}
 
                 <Editor
+                    preventSplit={false}
+                    preventToolbar={false}
                     autoCompleteOptions={words}
                     // onInsertComponent={(e: any, c: any) => {
                     //     if (c.type == "ol") {
