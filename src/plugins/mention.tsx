@@ -170,15 +170,6 @@ export const withMentions = (editor: any) => {
     return editor
 }
 
-export const insertMention = (editor: any, character: any) => {
-    const mention: any = {
-        type: 'mention',
-        character,
-        children: [{text: ''}],
-    }
-    Transforms.insertNodes(editor, mention)
-    Transforms.move(editor)
-}
 
 
 // Borrow Leaf renderer from the Rich Text example.

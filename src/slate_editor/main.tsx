@@ -5,7 +5,7 @@ import plugins from "../plugins/main";
 import SearchHighlightingExample from "../plugins/search_highlight";
 import {css} from "@emotion/css";
 import "./style/main.css"
-import useMention, {insertMention, Mention, withMentions} from "../plugins/mention";
+import useMention, {Mention, withMentions} from "../plugins/mention";
 import {withHistory} from "slate-history";
 import {createEditor, NodeEntry, Transforms} from "slate";
 import useCode, {CodeElementWrapper, CodeOptions, CodeSetNodeToDecorations, prismThemeCss} from "../plugins/code/code";
@@ -57,6 +57,7 @@ interface EditorProps {
     insertFooter?: boolean,
     preventSplit?: boolean,
     preventToolbar?: boolean,
+    onMention?: (person: any) => void
 }
 
 
@@ -76,6 +77,17 @@ const Editor = (props: EditorProps) => {
         }
     }
 
+
+    const insertMention = (editor: any, character: any) => {
+        const mention: any = {
+            type: 'mention',
+            character,
+            children: [{text: ''}],
+        }
+        Transforms.insertNodes(editor, mention)
+        Transforms.move(editor)
+        props.onMention && props.onMention(mention)
+    }
 
     let [MentionPortal,
         mentionOnChange,

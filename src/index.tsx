@@ -1,8 +1,8 @@
-import Editor from './slate_editor/main';
-import {runEditor} from "./run_editor";
+// import {runEditor} from "./run_editor";
+import OdocEditor from "./components/pages/editor";
 
-export default Editor;
+export default OdocEditor;
 
-if (process.env.NODE_ENV === 'development') {
-    runEditor()
-}
+// if (process.env.NODE_ENV === 'development') {
+//     runEditor()
+// }
