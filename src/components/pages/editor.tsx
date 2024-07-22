@@ -1,5 +1,3 @@
-'use odoc_editor_v2';
-
 import React, {ComponentType, SVGProps, useMemo, useRef} from 'react';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
@@ -404,6 +402,7 @@ export function OdocEditor(props: OdocEditorProps) {
         components: withDraggables(createPlateUI()),
         id,
     });
+    // eslint-disable-next-line
     userMentions.map(item => {
             if (!MENTIONABLES.find(mention => mention.key === item.key)) {
                 MENTIONABLES.push({
@@ -414,7 +413,7 @@ export function OdocEditor(props: OdocEditorProps) {
         }
     );
 
-
+    // eslint-disable-next-line
     extraPlugins.map((item, index) => {
 
             if (!slateSlashRules.find(rule => rule.value === item.key)) {

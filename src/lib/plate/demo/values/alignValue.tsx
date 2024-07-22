@@ -1,8 +1,8 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
+// /** @jsxRuntime classic */
+// /** @jsx jsx */
 import { jsx } from '@udecode/plate-test-utils';
 
-jsx;
+// jsx;
 
 export const alignValue: any = (
   <fragment>

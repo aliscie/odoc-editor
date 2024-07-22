@@ -1,5 +1,3 @@
-'use odoc_editor_v2';
-
 import { cn } from '@udecode/cn';
 import {
   CommentProvider,

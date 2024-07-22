@@ -1,9 +1,9 @@
 import "./App.css";
 
-import {MyMentionItem} from "@/lib/plate/demo/values/mentionables";
-import createAmazingPlugin, {KEY_AMAZING} from "@/components/edtiro_compnents/amazing_com";
-import {Icons} from "@/components/icons";
-import OdocEditor from "@/components/pages/editor";
+import {MyMentionItem} from "./lib/plate/demo/values/mentionables";
+import createAmazingPlugin, {KEY_AMAZING} from "./components/edtiro_compnents/amazing_com";
+import {Icons} from "./components/icons";
+import OdocEditor from "./components/pages/editor";
 
 
 const initialValue = [
@@ -115,7 +115,6 @@ function App() {
         {plugin: createAmazingPlugin, key: KEY_AMAZING, icon: Icons.kbd}
     ];
 
-
     return (
         <div className="flex items-start justify-center h-screen">
             <div className="w-5/6">
@@ -124,7 +123,8 @@ function App() {
                     onChange={onChange}
                     userMentions={mentions}
                     onInsertComponent={onInsertComponent}
-                    initialValue={initialValue} id="tableMerge"/>
+                    initialValue={initialValue} id="tableMerge"
+                />
             </div>
         </div>
     );

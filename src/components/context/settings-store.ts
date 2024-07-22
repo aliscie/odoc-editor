@@ -1,5 +1,3 @@
-'use odoc_editor_v2';
-
 import { KEY_SINGLE_LINE } from '@udecode/plate-break';
 import { createZustandStore } from '@udecode/plate-common';
 import { KEY_NORMALIZE_TYPES } from '@udecode/plate-normalizers';

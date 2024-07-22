@@ -1,8 +1,18 @@
-// import {runEditor} from "./run_editor";
-import OdocEditor from "./components/pages/editor";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
 
-export default OdocEditor;
+const rootElement = document.getElementById('root');
 
-// if (process.env.NODE_ENV === 'development') {
-//     runEditor()
-// }
+if (rootElement) {
+  const root = createRoot(rootElement);
+
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+} else {
+  console.error('Root element not found');
+}

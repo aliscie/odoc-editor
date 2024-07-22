@@ -179,7 +179,7 @@ const InlineCombobox = ({
 
   const items = store.useState('items');
 
-  useEffect;
+  // useEffect;
 
   /**
    * If there is no active ID and the list of items changes, select the first
