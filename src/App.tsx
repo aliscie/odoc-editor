@@ -124,7 +124,7 @@ function App() {
                     onChange={onChange}
                     userMentions={mentions}
                     onInsertComponent={onInsertComponent}
-                    initialValue={initialValue} id="1"/>
+                    initialValue={initialValue} id="tableMerge"/>
             </div>
         </div>
     );

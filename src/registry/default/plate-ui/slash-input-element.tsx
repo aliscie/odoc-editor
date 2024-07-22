@@ -18,7 +18,7 @@ import {
     InlineComboboxInput,
     InlineComboboxItem,
 } from './inline-combobox';
-import {slateSlashRules} from "@/components/pages/editor";
+import {slateSlashRules} from "../../../components/pages/editor";
 
 
 export const SlashInputElement = withRef<typeof PlateElement>(

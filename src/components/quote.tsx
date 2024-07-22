@@ -16,8 +16,8 @@ export function Quote(props:any) {
             id={props.id}
             style={{margin: 0, color: "lightgreen"}}
             ref={ref}
-            placeholder={"enter somthing..."}>
-            {props.children}
+        >
+           {props.children || "Enter something..."}
         </span>
     );
 

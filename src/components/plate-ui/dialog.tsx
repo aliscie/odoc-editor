@@ -3,7 +3,8 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { cn, createPrimitiveElement, withCn, withRef } from "@udecode/cn";
 
-import { Icons } from "@/components/icons";
+
+import { Icons } from "../../components/icons";
 
 export const Dialog = DialogPrimitive.Root;
 export const DialogTrigger = DialogPrimitive.Trigger;

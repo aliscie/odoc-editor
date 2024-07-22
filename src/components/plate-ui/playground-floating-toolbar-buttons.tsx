@@ -1,4 +1,4 @@
-import type { ValueId } from '@/config/customizer-plugins';
+import type { ValueId } from '../../config/customizer-plugins';
 
 import {
   MARK_BOLD,
@@ -9,12 +9,12 @@ import {
 } from '@udecode/plate-basic-marks';
 import { useEditorReadOnly } from '@udecode/plate-common';
 
-import { Icons } from '@/components/icons';
-import { isEnabled } from '@/lib/plate/demo/is-enabled';
-import { CommentToolbarButton } from '@/registry/default/plate-ui/comment-toolbar-button';
-import { LinkToolbarButton } from '@/registry/default/plate-ui/link-toolbar-button';
-import { MarkToolbarButton } from '@/registry/default/plate-ui/mark-toolbar-button';
-import { ToolbarSeparator } from '@/registry/default/plate-ui/toolbar';
+import { Icons } from '../../components/icons';
+import { isEnabled } from '../../lib/plate/demo/is-enabled';
+import { CommentToolbarButton } from '../../registry/default/plate-ui/comment-toolbar-button';
+import { LinkToolbarButton } from '../../registry/default/plate-ui/link-toolbar-button';
+import { MarkToolbarButton } from '../../registry/default/plate-ui/mark-toolbar-button';
+import { ToolbarSeparator } from '../../registry/default/plate-ui/toolbar';
 
 // import { PlaygroundMoreDropdownMenu } from '../../../../plate/apps/www/src/components/plate-ui/playground-more-dropdown-menu';
 // import { PlaygroundTurnIntoDropdownMenu } from '../../../../plate/apps/www/src/components/plate-ui/playground-turn-into-dropdown-menu';

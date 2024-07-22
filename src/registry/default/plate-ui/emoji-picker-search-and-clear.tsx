@@ -3,7 +3,7 @@ import type { UseEmojiPickerType } from '@udecode/plate-emoji';
 
 import { cn } from '@udecode/cn';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '../../../components/icons';
 
 export type EmojiPickerSearchAndClearProps = Pick<
   UseEmojiPickerType,

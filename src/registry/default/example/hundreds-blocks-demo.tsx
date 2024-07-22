@@ -14,8 +14,9 @@ import {editableProps} from '@/lib/plate/demo/editableProps';
 import {basicNodesPlugins} from '@/lib/plate/demo/plugins/basicNodesPlugins';
 import {createHugeDocumentValue} from '@/lib/plate/demo/values/createHugeDocumentValue';
 import {Editor} from '@/registry/default/plate-ui/editor';
+import { Descendant } from 'slate';
 
-const initialValue = createHugeDocumentValue();
+const initialValue: Descendant[] = createHugeDocumentValue() as Descendant[];
 
 function WithPlate() {
     return (
@@ -37,10 +38,10 @@ function Element({attributes, children, element}: RenderElementProps) {
 }
 
 function WithoutPlate() {
-    const [value, setValue] = useState(initialValue);
+    const [value, setValue] = useState<Descendant[]>(initialValue);
     const renderElement = useCallback((p: any) => <Element {...p} />, []);
     const editor = useMemo(() => withReact(createEditor() as ReactEditor), []);
-    const onChange = useCallback((newValue: Value) => {
+    const onChange = useCallback((newValue: Descendant[]) => {
         console.log({newValue})
         setValue(newValue)
     }, []);

@@ -1,3 +1,4 @@
+
 import type { TElement } from '@udecode/slate';
 
 import { cn } from '@udecode/cn';
@@ -10,7 +11,7 @@ import {
 
 import { Checkbox } from './checkbox';
 
-export const TodoMarker: MarkerFC = ({ element }: { element: TElement }) => {
+export const TodoMarker: LiFC = ({ element }: { element: TElement }) => {
   const state = useIndentTodoListElementState({ element });
   const { checkboxProps } = useIndentTodoListElement(state);
 

@@ -5,7 +5,7 @@ import {
   useEmojiDropdownMenuState,
 } from '@udecode/plate-emoji';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '../../../components/icons';
 
 import { emojiCategoryIcons, emojiSearchIcons } from './emoji-icons';
 import { EmojiPicker } from './emoji-picker';

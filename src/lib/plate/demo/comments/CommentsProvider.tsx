@@ -2,7 +2,7 @@ import {type ReactNode} from 'react';
 
 import {CommentsProvider as CommentsProviderPrimitive} from '@udecode/plate-comments';
 
-import {commentsData, usersData} from '@/lib/plate/demo/values/commentsValue';
+import {commentsData, usersData} from '../../../../lib/plate/demo/values/commentsValue';
 // import {useEditorRef} from "@udecode/plate-common";
 // import {Operation} from "slate";
 // import {ELEMENT_SLASH_INPUT} from "@udecode/plate-slash-command";

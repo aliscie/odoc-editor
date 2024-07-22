@@ -1,7 +1,7 @@
 import { withRef } from '@udecode/cn';
 import { useIndentButton } from '@udecode/plate-indent';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '../../../components/icons';
 
 import { ToolbarButton } from './toolbar';
 

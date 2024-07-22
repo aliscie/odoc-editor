@@ -14,8 +14,7 @@ import {
     useDraggableState,
 } from '@udecode/plate-dnd';
 import {blockSelectionActions} from '@udecode/plate-selection';
-
-import {Icons} from '@/components/icons';
+import { Icons } from '../../../components/icons';
 
 // import {
 //     Tooltip,
@@ -23,7 +22,7 @@ import {Icons} from '@/components/icons';
 //     TooltipPortal,
 //     TooltipTrigger,
 // } from './tooltip';
-import {Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger} from "@/components/plate-ui/tooltip";
+import {Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger} from "../../../components/plate-ui/tooltip";
 // import {TooltipProvider} from "@/components/plate-ui/tooltip";
 
 export interface DraggableProps

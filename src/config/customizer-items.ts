@@ -50,10 +50,10 @@ import { KEY_TRAILING_BLOCK } from '@udecode/plate-trailing-block';
 import {
   type CustomizerBadge,
   customizerBadges,
-} from '@/config/customizer-badges';
-import { customizerComponents } from '@/config/customizer-components';
-import { customizerPlugins } from '@/config/customizer-plugins';
-import { KEY_DRAG_OVER_CURSOR } from '@/lib/plate/demo/plugins/dragOverCursorPlugin';
+} from '../config/customizer-badges';
+import { customizerComponents } from '../config/customizer-components';
+import { customizerPlugins } from '../config/customizer-plugins';
+import { KEY_DRAG_OVER_CURSOR } from '../lib/plate/demo/plugins/dragOverCursorPlugin';
 
 export type SettingPlugin = {
   badges?: CustomizerBadge[];

@@ -8,7 +8,7 @@ import {
 } from '@udecode/plate-media';
 import { cva } from 'class-variance-authority';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '../../../components/icons';
 import { ArrowLeft, ArrowRight, Download } from 'lucide-react';
 
 const toolButtonVariants = cva('rounded bg-[rgba(0,0,0,0.5)] px-1', {

@@ -12,7 +12,7 @@ import {
   useEditorRef,
   useElement,
 } from '@udecode/plate-common';
-import { Hotkeys, isHotkey, removeNodes } from '@udecode/plate-common/server';
+import { Hotkeys, isHotkey, removeNodes  } from '@udecode/plate-common';
 import { useSelected } from 'slate-react';
 import type { CancelComboboxInputCause, ComboboxInputCursorState } from '@udecode/plate-combobox';
 

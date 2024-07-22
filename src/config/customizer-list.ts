@@ -48,8 +48,8 @@ import { ELEMENT_TOGGLE } from '@udecode/plate-toggle';
 import { KEY_TRAILING_BLOCK } from '@udecode/plate-trailing-block';
 import { uniqBy } from 'lodash';
 
-import { customizerItems } from '@/config/customizer-items';
-import { KEY_DRAG_OVER_CURSOR } from '@/lib/plate/demo/plugins/dragOverCursorPlugin';
+import { customizerItems } from '../config/customizer-items';
+import { KEY_DRAG_OVER_CURSOR } from '../lib/plate/demo/plugins/dragOverCursorPlugin';
 
 export const customizerList = [
   {

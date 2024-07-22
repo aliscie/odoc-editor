@@ -14,7 +14,7 @@ import {
 } from '@udecode/plate-layout';
 import { useReadOnly } from 'slate-react';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '../../../components/icons';
 import { Columns2, Columns3 } from 'lucide-react';
 
 import { Button } from './button';

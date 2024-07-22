@@ -6,9 +6,9 @@ import { KEY_NORMALIZE_TYPES } from '@udecode/plate-normalizers';
 import { KEY_SELECT_ON_BACKSPACE } from '@udecode/plate-select';
 import { toast } from 'sonner';
 
-import { type SettingPlugin, customizerItems } from '@/config/customizer-items';
-import { customizerList } from '@/config/customizer-list';
-import { type ValueId, customizerPlugins } from '@/config/customizer-plugins';
+import { type SettingPlugin, customizerItems } from '../../config/customizer-items';
+import { customizerList } from '../../config/customizer-list';
+import { type ValueId, customizerPlugins } from '../../config/customizer-plugins';
 
 export const categoryIds = customizerList.map((item) => item.id);
 

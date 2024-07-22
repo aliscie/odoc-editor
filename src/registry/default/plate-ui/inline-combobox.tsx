@@ -42,8 +42,8 @@ import {
   useEditorRef,
 } from '@udecode/plate-common';
 import { cva } from 'class-variance-authority';
-import {filterWords} from "@/utils";
-import {useComboboxInput} from "@/hooks";
+import {filterWords} from "../../../utils";
+import {useComboboxInput} from "../../../hooks";
 
 type FilterFn = (
   item: { keywords?: string[]; value: string },
